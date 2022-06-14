@@ -1,0 +1,19 @@
+{
+  "name": "react-native-simple-read-more-text",
+  "version": "1.0.0",
+  "description": "Read more functionality for React Native",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ExtisOne/react-native-simple-read-more-text.git"
+  },
+  "author": "Extis ehf.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ExtisOne/react-native-simple-read-more-text/issues"
+  },
+  "homepage": "https://github.com/ExtisOne/react-native-simple-read-more-text#readme"
+}
