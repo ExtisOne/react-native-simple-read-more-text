@@ -11,7 +11,7 @@ export type Props = {
 };
 
 const SimpleReadMore: React.FC<Props> = ({
-    lines,
+    lines = 3,
     footerStyle,
     readMoreText,
     readLessText,
@@ -21,31 +21,58 @@ const SimpleReadMore: React.FC<Props> = ({
     const [showAll, setShowAll] = React.useState(
         false
     );
+
+    const [linesOverflow, setLinesOverflow] = React.useState(
+        false
+    );
+
+    const [loaded, setLoaded] = React.useState(
+        false
+    );
+
+    const [initialLineCount, setInitialLineCount] = React.useState(
+        100
+    );
+
+    function checkForLineOverflow(e: { nativeEvent: { lines: string | any[]; }; }) {
+        setLoaded(true);
+        if (!loaded) {
+            if (e.nativeEvent.lines.length > lines) {
+                setLinesOverflow(true);
+                setInitialLineCount(lines)
+            }
+        }
+    }
+
     return (
         <View>
-            <Text numberOfLines={!showAll ? lines : 0} style={style}>
+            <Text numberOfLines={!showAll ? initialLineCount : 0} style={style} onTextLayout={checkForLineOverflow}>
                 {children}
             </Text>
-            <ShowMore style={footerStyle} readMore={readMoreText} readLess={readLessText} showAll={showAll} setShowAll={setShowAll} />
+            <ShowMore overflow={linesOverflow} style={footerStyle} readMore={readMoreText} readLess={readLessText} showAll={showAll} setShowAll={setShowAll} />
         </View>
     );
 };
 
-const ShowMore = (props: { showAll: any; setShowAll: any; style: any; readMore: string; readLess: string; }) => {
-    const { showAll, setShowAll, style, readMore, readLess } = props;
+const ShowMore = (props: { showAll: any; setShowAll: any; style: any; readMore: string; readLess: string; overflow: boolean }) => {
+    const { showAll, setShowAll, style, readMore, readLess, overflow } = props;
 
-    if (showAll == false) {
-        return (
-            <Text style={(style) ? style : styles.defaultStyle} onPress={() => { setShowAll(true) }}>
-                {readMore ? readMore : "Read more"}
-            </Text>
-        );
+    if (overflow) {
+        if (showAll == false) {
+            return (
+                <Text style={(style) ? style : styles.defaultStyle} onPress={() => { setShowAll(true) }}>
+                    {readMore ? readMore : "Read more"}
+                </Text>
+            );
+        } else {
+            return (
+                <Text style={(style) ? style : styles.defaultStyle} onPress={() => { setShowAll(false) }}>
+                    {readLess ? readLess : "Read less"}
+                </Text>
+            )
+        }
     } else {
-        return (
-            <Text style={(style) ? style : styles.defaultStyle} onPress={() => { setShowAll(false) }}>
-                {readLess ? readLess : "Read less"}
-            </Text>
-        )
+        return null;
     }
 };
 
