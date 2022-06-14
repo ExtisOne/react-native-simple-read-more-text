@@ -79,6 +79,7 @@ const ShowMore = (props: { showAll: any; setShowAll: any; style: any; readMore: 
 const styles = StyleSheet.create({
     defaultStyle: {
         color: 'black',
+        fontWeight: 'bold',
         marginTop: 6,
     }
 });
